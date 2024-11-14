@@ -1,0 +1,61 @@
+Componentes:
+-Front (Vite + React)
+-Back (Express)
+-Calculadora (Python)
+-Banco de Dados (SQL)
+
+Casos de Uso(Diagrama Feito):
+-Atores:
+--Estudante
+--Pesquisador
+-Casos de Uso:
+--Simular modelos matemáticos
+--Comunicar com membros da equipe
+--Organizar dados
+--Calcular Estatísticas Relevantes
+
+Entidades e Relacionamentos(Diagrama Feito):
+-Cada estudante/equipe terá várias tabelas de dados, mas cada tabela pode ser acessada apenas por um estudante ou uma equipe. Uma equipe pode ser composta por diversos estudantes
+
+Outros Diagramas:
+-Classe(ver abaixo)
+-Sequência(?)
+-Diagrama de Componentes
+
+Classes:
+-Design Patterns:
+--(Abstract) Factory
+--Singleton
+-Arquiteturas:
+--Camadas (Por enquanto)
+--Microserviços(?)
+-Classes do Front:
+--Cada página vai ser uma classe, com uma possível classe construtora dependendo do padrão de design escolhido
+--Singleton para enviar informações ao back
+
+Páginas do Front:
+-Cores: Azul (Primária), Verde
+-Página inicial
+-Login
+-Seletor entre três páginas:
+--Calculadora estatística
+--Simuladores
+--Gerenciamento de Dados e Grupos
+
+Rotas do Back:
+-GET (checar disponibilidade do servidor), uma rota
+-POST (login), uma rota
+-POST (receber e enviar dados da estatística), duas rotas
+-POST (receber e enviar dados da simulação), duas rotas
+-POST (receber e enviar dados do gerenciamento), duas rotas
++Total: 8 rotas
+
+Calculadora:
+-Calculadora Estatística Geral
+--Regressão
+-Simulador
+--Plotagem de gráficos
+--Simuladores específicos
+
+Testes:
+-Implementar softwares de teste (Cypress, Amplitude, e outros a decidir)
