@@ -1,8 +1,16 @@
 Componentes:
 -Front (Vite + React)
+--Calculadora (Javascript)
+--Gerenciamento (Javascript)
+--Mediador (Javascript)
 -Back (Express)
--Calculadora (Python)
 -Banco de Dados (SQL)
+
+Como executar tudo:
+-Front, Back, Calculadora, Mediador (Vercel)
+-Banco de Dados:
+--Opção 1: MySQL
+--Opção 2: Postgre
 
 Casos de Uso(Diagrama Feito):
 -Atores:
@@ -25,37 +33,53 @@ Outros Diagramas:
 Classes:
 -Design Patterns:
 --(Abstract) Factory
---Singleton
+--Singleton(?)
 -Arquiteturas:
 --Camadas (Por enquanto)
 --Microserviços(?)
--Classes do Front:
---Cada página vai ser uma classe, com uma possível classe construtora dependendo do padrão de design escolhido
---Singleton para enviar informações ao back
+--MVC
+--Pipeline
 
-Páginas do Front:
--Cores: Azul (Primária), Verde
--Página inicial
--Login
--Seletor entre três páginas:
---Calculadora estatística
---Simuladores
---Gerenciamento de Dados e Grupos
+Servidor:
+-Rotas:
+--GET (checar disponibilidade do servidor), uma rota
+--POST (login), uma rota
+--POST (receber e enviar dados da estatística), duas rotas
+--POST (receber e enviar dados da simulação), duas rotas
+--POST (receber e enviar dados do gerenciamento), duas rotas
+--Segunda possibilidade:
+---POST (uma só rota que engloba todas as funcionalidades acima, dependendo da informação recebida do model)
+-+Total: 8 rotas
 
-Rotas do Back:
--GET (checar disponibilidade do servidor), uma rota
--POST (login), uma rota
--POST (receber e enviar dados da estatística), duas rotas
--POST (receber e enviar dados da simulação), duas rotas
--POST (receber e enviar dados do gerenciamento), duas rotas
-+Total: 8 rotas
-
-Calculadora:
--Calculadora Estatística Geral
---Regressão
--Simulador
---Plotagem de gráficos
---Simuladores específicos
+Interações:
+-Arquitetura MVC:
+--Model:
+---Conexão com o Banco
+---Servidor
+---Singleton
+---Mediador
+----Calculadora:
+-----Calculadora Estatística Geral
+------Regressão
+-----Simulador
+------Plotagem de gráficos
+------Simuladores específicos
+---Gerenciamento:
+----Dados salvos
+----Informações
+----Equipes
+--View:
+---Cores: Azul (Primária), Verde
+---Página inicial
+---Login
+---Seletor entre três páginas:
+----Calculadora 
+-----
+----Simuladores
+-----
+----Gerenciamento de Dados e Grupos
+-----
+--Controller:
 
 Testes:
 -Implementar softwares de teste (Cypress, Amplitude, e outros a decidir)
