@@ -9,8 +9,8 @@ optiontest:int = 3
 timetest:float = 1000
 
 
-statobj = sc.StatCalc("y - x**2", unbarr, testarr3, -10, 10)
-simobj = sim.Simulator(testarr2, optiontest, timetest, 5, 2)
-statobj.send() #Chamada de teste
-simobj.send()
+#statobj = sc.StatCalc("y - x**2", unbarr, testarr3, -10, 10)
+#simobj = sim.Simulator(testarr2, optiontest, timetest, 5, 2)
+#statobj.send() #Chamada de teste
+#simobj.send()
 #simobj.prob_well()

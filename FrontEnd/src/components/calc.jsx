@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
 import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 function Calc() {
-  const [count, setCount] = useState(0)
+  const [bound, setBound] = useState()
   //LEMBRE DA REGRESSÃO
   const navigate = useNavigate();
   function convertData(){
@@ -14,17 +14,19 @@ function Calc() {
     for (let i in dataarr) {
       dataarrreturn.push(Number(dataarr[i]));
     }
-    return dataarrreturn
-  }
-  let boundarr = document.getElementById("bound").value.split(",")
+    return [dataarrreturn]
+  }  
 
   function prepare() {
+    let boundsetter = document.getElementById("bound").value.split(",")
+    setBound(boundsetter)
+    console.log(bound)
     const calcobj = {
       "data": convertData(),
-      "unb": Number(document.getElementById("unb").value),
+      "unb": [Number(document.getElementById("unb").value)],
       "eq": document.getElementById("eq").value,
-      "lb": Number(boundarr[0]),
-      "ub": Number(boundarr[boundarr.length - 1])
+      "lb": Number(bound[0]),
+      "ub": Number(bound[bound.length - 1])
     }
     console.log(calcobj)
     sessionStorage.setItem("calc", JSON.stringify(calcobj));

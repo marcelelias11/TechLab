@@ -4,15 +4,11 @@ import viteLogo from '/vite.svg'
 import { useNavigate } from 'react-router-dom';
 import './App.css'
 
-function createOption() {
-    
-    return options
-}
-
-export default function SearchCampus(){
+export default function CalcResult(){
     const [options, setOptions] = useState([]);
+    console.log(sessionStorage.getItem("calc"))
     useEffect(() => {
-        fetch("https://localhost:8080/stat", {
+        fetch("http://localhost:8080/stat", {
             method: "POST",
             mode: "cors",
             headers: {
@@ -26,13 +22,14 @@ export default function SearchCampus(){
       })
       .then(async function (text) {
         console.log(text)
-        setOptions(text)
+        console.log(text.stats.stats)
+        setOptions(text.stats)
       })
       .catch((error) => {
         console.error(error);
       });
      }, [])
-     console.log(options)    
+     console.log(options.stats[0])
     return(
         <>
       <div>
@@ -43,18 +40,13 @@ export default function SearchCampus(){
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Simulator</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Simulator goes here
-        </p>
+      <h1>Resultados</h1>
+      <p> Media: {JSON.stringify(options.stats[0].avg)} <br /> Desvio Padrão: {JSON.stringify(options.stats[0].std)} <br /> 
+      Incerteza Experimental: {JSON.stringify(options.stats[0].una)} <br /> Incerteza Instrumental: {JSON.stringify(options.stats[0].unb)} <br /> 
+      Incerteza Combinada: {JSON.stringify(options.stats[0].unc)} <br />Incerteza Propagada: {JSON.stringify(options.stats[0].unz)}</p>
+      <div className="card">       
+        <img src={`data:image/jpeg;base64,${options.graph}`} />
       </div>
-      <p className="read-the-docs">
-        This should be a nightmare
-      </p>
     </>
     )
 }

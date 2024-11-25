@@ -6,6 +6,7 @@ import Home from './components/home'
 import Login from './components/login';
 import Select from './components/select';
 import Calc from './components/calc';
+import CalcResult from './components/calcresult';
 import Sim from './components/sim';
 import './App.css'
 
@@ -20,7 +21,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/select" element={<Select/>}/>
           <Route path="/calculator" element={<Calc/>}/>
-          <Route path="/calcresult" element={<Calc/>}/>
+          <Route path="/calcresult" element={<CalcResult/>}/>
           <Route path="/simulator" element={<Sim/>}/>
         </Routes>
       </BrowserRouter>
