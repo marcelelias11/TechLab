@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 function Select() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate();
 
   return (
     <>
@@ -18,16 +19,16 @@ function Select() {
       </div>
       <h1>Selector</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <button onClick={() => navigate("/calculator")}>
+          Calculadora Estatística
         </button>
-        <p>
-          Selector goes here
-        </p>
+        <button onClick={() => navigate("/simulator")}>
+          Simulador
+        </button>
+        <button onClick={() => alert("Em desenvolvimento!")}>
+          Gerenciar Seus Dados
+        </button>
       </div>
-      <p className="read-the-docs">
-        Yadda yadda
-      </p>
     </>
   )
 }

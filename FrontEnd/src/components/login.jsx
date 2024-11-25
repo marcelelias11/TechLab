@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 function Login() {
-  const [count, setCount] = useState(0)
-
+  const navigate = useNavigate();
+  
   return (
     <>
       <div>
@@ -17,17 +18,19 @@ function Login() {
         </a>
       </div>
       <h1>Login</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <form>
+        <label>Usuário:</label>
+        <input id="user">
+        </input>
+        <br /><br />
+        <label>Senha:</label>
+        <input id="user">
+        </input>
+        <br /><br />
+      </form>
+      <button onClick={() => navigate("/select")}>
+          Continuar
         </button>
-        <p>
-          Login goes here
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Remember to block future routes if no login is detected (serverside check)
-      </p>
     </>
   )
 }

@@ -1,11 +1,36 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 function Calc() {
   const [count, setCount] = useState(0)
   //LEMBRE DA REGRESSÃO
+  const navigate = useNavigate();
+  function convertData(){
+    let dataarr = document.getElementById("data").value.split(",");
+    let dataarrreturn = [];
+    for (let i in dataarr) {
+      dataarrreturn.push(Number(dataarr[i]));
+    }
+    return dataarrreturn
+  }
+  let boundarr = document.getElementById("bound").value.split(",")
+
+  function prepare() {
+    const calcobj = {
+      "data": convertData(),
+      "unb": Number(document.getElementById("unb").value),
+      "eq": document.getElementById("eq").value,
+      "lb": Number(boundarr[0]),
+      "ub": Number(boundarr[boundarr.length - 1])
+    }
+    console.log(calcobj)
+    sessionStorage.setItem("calc", JSON.stringify(calcobj));
+    return navigate("/calcresult")
+  }
+
   return (
     <>
       <div>
@@ -18,16 +43,25 @@ function Calc() {
       </div>
       <h1>Calculator</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <label>Insira os dados com uma vírgula entre eles (Ex.: 5,5.1,5.5,5.3,4.9):</label>
+        <input id="data">
+        </input>
+        <br /><br />
+        <label>Insira a incerteza instrumental:</label>
+        <input id="unb">
+        </input>
+        <label>Insira a equação a ser utilizada (Utilize / para divisão, * para multiplicação e ** para exponenciação.
+          Utilize parênteses para evitar ambiguidades.):</label>
+        <input id="eq">
+        </input>
+        <label>Insira os limites superiores e inferiores com uma vírgula entre eles (Ex.: -10,10):</label>
+        <input id="bound">
+        </input>
+        <button onClick={prepare}>
+          Enviar
         </button>
-        <p>
-          Calculator goes here
-        </p>
+        <br /><br />
       </div>
-      <p className="read-the-docs">
-        This should be fun
-      </p>
     </>
   )
 }

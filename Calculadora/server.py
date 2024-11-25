@@ -10,34 +10,30 @@ timetest:float = 1000
 
 app = Flask(__name__)
 
-@app.route('/receive-data', methods=['POST'])
+@app.route('/stat', methods=['POST'])
 def receive_data():
     data = request.json
     statobj = sc.StatCalc(data["eq"], data["unb"], data["data"], data["lb"], data["ub"])
-    simobj = sim.Simulator(data["har"], data["wave"], data["t"], data["nrg"], data["op"])
     # Process the received data
     print(f"Received data: {data}")
     simdata = statobj.send()
-    sympy_plot = simobj.send()
-
     response_data = {
-        "message": "Here is some data from the Python app",
-        "stat_calc_data": simdata,
-        "sympy_plot": sympy_plot
+        "stats": simdata,
     }
     return jsonify(response_data)
 
-'''@app.route('/send-data', methods=['GET'])
-def send_data():
-    simdata = statobj.send()
+@app.route('/sim', methods=['POST'])
+def receive_data():
+    data = request.json
+    simobj = sim.Simulator(data["har"], data["wave"], data["t"], data["nrg"], data["op"])
+    # Process the received data
+    print(f"Received data: {data}")
     sympy_plot = simobj.send()
 
     response_data = {
-        "message": "Here is some data from the Python app",
-        "stat_calc_data": simdata,
         "sympy_plot": sympy_plot
     }
-    return jsonify(response_data)'''
+    return jsonify(response_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
