@@ -1,36 +1,31 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
 
-class Simulator:
-    # Constants
-    __L = 1
-    # Input amplitudes
-    def __init__(self, harmonics:list,option:int, time:float, energy:int, choice: int): #Construtor da classe
+# Abstract Base Class for Simulator
+class SimulatorBase:
+    def send(self):
+        raise NotImplementedError("Subclasses must implement the `send` method.")
+
+# Concrete implementation for Waves
+class Waves(SimulatorBase):
+    def __init__(self, harmonics: list, option: int):
         self.harm = harmonics
         self.op = option
-        self.time = time
-        self.energy = energy
-        self.choice = choice
-        pass
-    
+
+    def send(self):
+        return {"graph": self.__waves()}
+
     def __waves(self):
         A = np.array(list(map(float, self.harm)))
         n = len(A)  # Number of harmonics
-
-        # Display wave type options
-        #print("Choose the type of wave:")
-        #print("1 - Traditional wave")
-        #print("2 - Triangular wave")
-        #print("3 - Square wave")
-        #print("4 - Sawtooth wave")
         option = self.op
-
-        t = np.linspace(0, np.pi, self.time)
-
-        # Wave calculation
+        t = np.linspace(0, np.pi, 1000)  # Time domain
         y = np.zeros_like(t)
+
         if option == 1:
             for i in range(1, n + 1):
                 y += A[i - 1] * np.sin(2 * np.pi * i * t)
@@ -50,10 +45,8 @@ class Simulator:
                 y += (1 / (2 * i * np.pi)) * np.sin(2 * np.pi * i * t)
             title = "Resulting sawtooth wave"
         else:
-            print("Invalid option!")
-            exit()
+            raise ValueError("Invalid wave option!")
 
-        # Plot the result
         plt.plot(t, y)
         plt.xlabel('Time')
         plt.ylabel('Amplitude')
@@ -67,40 +60,37 @@ class Simulator:
         buf.close()
         plt.close()
         return graph_base64
-    
+
+# Concrete implementation for ProbWell
+class ProbWell(SimulatorBase):
+    __L = 1  # Constants
+
+    def __init__(self, time: float, energy: int):
+        self.time = time
+        self.energy = energy
+
+    def send(self):
+        return {"graph": self.__prob_well()}
+
     def __prob_well(self):
-        # Define functions
         def P(x):
-            """Probability density function derived from psi(x)."""
             psi = np.sqrt(2 / self.__L) * np.sin(self.energy * np.pi * x / self.__L)  # psi(x)
             return psi**2  # P(x)
 
         def Q(x):
-            """Proposal uniform distribution."""
             return np.sqrt(2 / self.__L)
 
-        # Number of samples
         N = 100000
-
-        # Metropolis-Hastings sampling
         x = np.zeros(N)
         i = 0
         while i < N:
-            # Generate a sample from the proposal distribution
-            x1 = np.random.rand()  # Uniform distribution in [0, 1]
-            
-            # Calculate acceptance ratio
+            x1 = np.random.rand()
             accept_ratio = P(x1) / Q(x1)
-            
-            # Generate a random number for acceptance/rejection
             u = np.random.rand()
-            
-            # Accept or reject the sample
             if u <= accept_ratio:
                 x[i] = x1
                 i += 1
 
-        # Plot histogram of generated samples
         plt.hist(x, bins=100, density=True, alpha=0.75, label="Sampled Distribution")
         plt.xlabel("x")
         plt.ylabel("Probability Density")
@@ -115,9 +105,14 @@ class Simulator:
         buf.close()
         plt.close()
         return graph_base64
-    
-    def send(self):
-        if self.choice == 1:
-            return ({"graph": self.__waves()})
-        if self.choice == 2:
-            return ({"graph": self.__prob_well()})
+
+# Factory class to create Simulator instances
+class Simulator:
+    @staticmethod
+    def create_simulator(simulator_type: str, args:dict) -> SimulatorBase:
+        if simulator_type == "waves":
+            return Waves(args["harmonics"], args["option"])
+        elif simulator_type == "prob_well":
+            return ProbWell(args["time"], args["energy"])
+        else:
+            raise ValueError(f"Unknown simulator type: {simulator_type}")

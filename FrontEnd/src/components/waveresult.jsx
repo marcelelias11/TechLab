@@ -1,30 +1,28 @@
 import { useState,useEffect } from 'react';
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
-import { useNavigate } from 'react-router-dom';
 import './App.css'
 
-export default function CalcResult(){
+export default function WaveResult(){
     const [options, setOptions] = useState([]);
-    console.log("Session Storage:" + sessionStorage.getItem("calc"))
+    console.log(sessionStorage.getItem("wave"))
     useEffect(() => {
-        fetch("http://localhost:8080/stat", {
+        fetch("http://localhost:8080/sim", {
             method: "POST",
             mode: "cors",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: sessionStorage.getItem("calc"),
+            body: sessionStorage.getItem("wave"),
           })
       .then(async function (response) {
-        console.log("Initial Response: " + response)
         return await response.json();
       })
       .then(async function (text) {
-        console.log("Response:" + text)
-        console.log(text.stats.stats)
-        setOptions(text.stats.stats[0])
+        console.log(text)
+        console.log(text.plot.graph)
+        setOptions(text.plot.graph)
       })
       .catch((error) => {
         console.error(error);
@@ -41,12 +39,9 @@ export default function CalcResult(){
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Resultados</h1>
-      <p> Media: {JSON.stringify(options.avg)} <br /> Desvio Padrão: {JSON.stringify(options.std)} <br /> 
-      Incerteza Experimental: {JSON.stringify(options.una)} <br /> Incerteza Instrumental: {JSON.stringify(options.unb)} <br /> 
-      Incerteza Combinada: {JSON.stringify(options.unc)} <br />Incerteza Propagada: {JSON.stringify(options.unz)}</p>
+      <h1>Resultado:</h1>
       <div className="card">       
-        <img src={`data:image/jpeg;base64,${options.graph}`} />
+        <img src={`data:image/jpeg;base64,${options}`} />
       </div>
     </>
     )

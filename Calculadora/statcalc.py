@@ -4,6 +4,8 @@ import statistics as stat
 import math
 import io
 import base64
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 class StatCalc: #Classe que armazena a calculadora estatística

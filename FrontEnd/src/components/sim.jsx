@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 function Sim() {
-  const [count, setCount] = useState(0)
-
+  const navigate = useNavigate();
   return (
     <>
       <div>
@@ -18,16 +18,13 @@ function Sim() {
       </div>
       <h1>Simulator</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => navigate("/wavesim")}>
+          Simulador de Ondas
         </button>
-        <p>
-          Simulator goes here
-        </p>
+        <button onClick={() => navigate("/wellsim")}>
+          Simulador de Poço de Probabilidade
+        </button>
       </div>
-      <p className="read-the-docs">
-        This should be a nightmare
-      </p>
     </>
   )
 }
