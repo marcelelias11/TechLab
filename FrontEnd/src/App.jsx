@@ -7,6 +7,8 @@ import CalcResult from './components/calcresult';
 import Sim from './components/sim';
 import WaveSim from './components/wavesim';
 import WaveResult from "./components/waveresult";
+import WellSim from "./components/wellsim";
+import WellResult from "./components/wellresult";
 import './App.css'
 
 
@@ -24,7 +26,8 @@ function App() {
           <Route path="/simulator" element={<Sim/>}/>
           <Route path="/wavesim" element={<WaveSim/>}/>
           <Route path="/waveresult" element={<WaveResult/>}/>
-          <Route path="/wellsim" element={<Sim/>}/>
+          <Route path="/wellsim" element={<WellSim/>}/>
+          <Route path="/wellresult" element={<WellResult/>}/>
         </Routes>
       </BrowserRouter>
     </>

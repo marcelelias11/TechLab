@@ -65,8 +65,7 @@ class Waves(SimulatorBase):
 class ProbWell(SimulatorBase):
     __L = 1  # Constants
 
-    def __init__(self, time: float, energy: int):
-        self.time = time
+    def __init__(self, energy: int):
         self.energy = energy
 
     def send(self):
@@ -113,6 +112,6 @@ class Simulator:
         if simulator_type == "waves":
             return Waves(args["harmonics"], args["option"])
         elif simulator_type == "prob_well":
-            return ProbWell(args["time"], args["energy"])
+            return ProbWell(args["energy"])
         else:
             raise ValueError(f"Unknown simulator type: {simulator_type}")
