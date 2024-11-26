@@ -24,7 +24,7 @@ function Login() {
         </input>
         <br /><br />
         <label>Senha:</label>
-        <input id="user">
+        <input id="user" type="password" name="password">
         </input>
         <br /><br />
       </form>
