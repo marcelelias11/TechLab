@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import reactLogo from '../assets/react.svg';
-import viteLogo from '/vite.svg';
+import reactLogo from '../assets/react.svg'
+import viteLogo from '/vite.svg'
 import { useNavigate } from 'react-router-dom';
-import './App.css';
+import './App.css'
 
-function Home() {
-  const [count, setCount] = useState(0);
+function Data() {
   const navigate = useNavigate();
 
   return (
@@ -18,17 +16,17 @@ function Home() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Home</h1>
+      <h1>Selector</h1>
       <div className="card">
-        <button onClick={() => navigate("/login")}>
-          Realizar login
+      <button onClick={() => navigate("/data")}>
+          Criar ou Gerenciar Equipe
         </button>
-        <button onClick={() => navigate("/cadastro")}>
-          Criar conta
+        <button onClick={() => navigate("/data")}>
+          Ver seus dados salvos
         </button>
       </div>
     </>
   )
 }
 
-export default Home
+export default Data

@@ -1,23 +1,31 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
+const express = require("express");
+const server = express();
+const dotenv = require("dotenv");
+const cors = require("cors");
+const fs = require("fs");
 const mysql = require("mysql2");
+server.use(cors());
+server.use(express.json());
+server.use(express.static("src"));
 const connection = mysql.createConnection({
   host: "mysql-d5f7afc-marcelelias11-5b03.k.aivencloud.com",
+  port: "19351",
   user: "avnadmin",
   password: "AVNS_Hiikpb8C2RAs7jTAOcq",
-  database: "mydb",
+  database: "defaultdb",
   ssl: {
-    rejectUnauthorized: false,
+    require: true,
+    ca: fs.readFileSync("./src/ca/ca.pem"),
   },
 });
 
 dotenv.config();
 connection.connect();
 
-const server = express();
-server.use(cors());
-server.use(express.json());
+connection.query(`SELECT * FROM equipes`, (err, rows, fields) => {
+  if (err) throw err;
+  console.log(rows);
+});
 
 server.get("/health", (req, res) => {
   res.status(200).json({ message: "Server is healthy!" });
