@@ -29,9 +29,17 @@ useEffect(() => {
     console.error(error);
     alert(error);
   }); 
-}, [])    
+}, [])
 
-  function prepare() {   
+  let selectedId = ""
+  function handleOptionClick(option) {
+    selectedId = option;
+    console.log(selectedId)
+    console.log(selectedId.idpesquisa)
+  }
+
+  function prepare() {
+    console.log(String(selectedId.idpesquisa))   
     fetch("http://localhost:8080/delete", {
         method: "POST",
         mode: "cors",
@@ -40,11 +48,11 @@ useEffect(() => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          pesquisa: document.getElementById("options").value,
+          pesquisa: String(selectedId.idpesquisa),
         }),
       })
       .then(async function (response) {
-        if (response.status === 201) {
+        if (response.status === 200) {
           const text = await response.text(); // Await the text only if status is 201
           alert("Documento deletado com sucesso!")
         } else {
@@ -52,8 +60,9 @@ useEffect(() => {
         }
       })
       .catch((error) => {
+        console.log(error.message);
         console.error(error);
-        alert("Failed to proceed: " + error.message);
+        confirm("Failed to proceed: " + error.message);
       });
   }
 
@@ -66,13 +75,14 @@ useEffect(() => {
         <form>
         <label>Selecione os dados para deletar:</label>
         <select name="options" id="options">
+        <option>--Selecionar--</option>
         {options.map((option, index) => (
-              <option id={index} key={index} value={option}>
+              <option onClick={() => handleOptionClick(option)} id={index} key={index} value={option}>
                 {option.idpesquisa}
               </option>
             ))}
         </select>
-        <button onClick={prepare}>
+        <button onClick={() => prepare()}>
           Deletar
         </button>
         <button onClick={() => navigate("/precalc")}>

@@ -110,10 +110,10 @@ server.post("/save", (req, res) => {
 server.post("/delete", (req, res) => {
   db.query(
     `DELETE FROM pesquisa WHERE idpesquisa = '${req.body.pesquisa}';`,
-    (err, rows, fields) => {
+    (err, result, fields) => {
       if (err) throw err;
-      console.log(rows);
-      res.status(201).send(rows);
+      console.log("deleted Record: " + result.affectedRows);
+      res.status(200).send("deleted Record: " + result.affectedRows);
     }
   );
 });

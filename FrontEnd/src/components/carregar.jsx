@@ -33,20 +33,16 @@ useEffect(() => {
 
   let selectedId = ""
   function handleOptionClick(option) {
-    selectedId = document.getElementById("options").value;
+    selectedId = option;
     console.log(selectedId)
-
-    // Find the selected option's data
-    const selectedOption = options.find((option) => option.idpesquisa === selectedId);
-    return selectedOption
   }
   function prepare() {   
-    
-    if (selectedOption === "") {
+    console.log(selectedId)
+    if (selectedId === "") {
       alert("No data found for the selected option.");
     } else {
-      console.log(selectedOption)
-      sessionStorage.setItem("calc", selectedOption.dados);
+      console.log(selectedId)
+      sessionStorage.setItem("calc", selectedId.dados);
       navigate("/calcresult");
     }
   }
@@ -60,6 +56,7 @@ useEffect(() => {
         <form>
         <label>Selecione os dados salvos:</label>
         <select name="options" id="options">
+          <option>--Selecionar--</option>
         {options.map((option, index) => (
               <option onClick={() => handleOptionClick(option)} id={index} key={index} value={option}>
                 {option.idpesquisa}
