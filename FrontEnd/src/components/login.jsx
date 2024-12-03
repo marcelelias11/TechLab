@@ -6,16 +6,21 @@ import './App.css'
 
 function Login() {
   const navigate = useNavigate();
+
+  function loginCheck() {
+    if (document.getElementById("user").value === "") {
+      alert("Favor inserir usuário");
+    }
+    else if (document.getElementById("pass").value === "") {
+      alert("Favor inserir senha");
+    } else {
+      return navigate("/select")
+    }
+  }
   
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
       <h1>Login</h1>
       <form>
@@ -24,11 +29,11 @@ function Login() {
         </input>
         <br /><br />
         <label>Senha:</label>
-        <input id="user" type="password" name="password">
+        <input id="pass" type="password" name="password">
         </input>
         <br /><br />
       </form>
-      <button onClick={() => navigate("/select")}>
+      <button onClick={loginCheck}>
           Continuar
         </button>
     </>

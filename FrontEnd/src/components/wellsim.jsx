@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './App.css'
 
 function WellSim() {
-  //LEMBRE DA REGRESSÃO
+  
   const navigate = useNavigate();
 
   function prepare() {
@@ -21,12 +21,6 @@ function WellSim() {
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
       <h1>Calculator</h1>
       <div className="card">
@@ -37,7 +31,13 @@ function WellSim() {
         <button onClick={prepare}>
           Enviar
         </button>
+        <button onClick={() => navigate("/simulator")}>
+          Voltar
+        </button>
         <br /><br />
+        <button onClick={() => navigate("/select")}>
+          Menu Principal
+        </button>
       </div>
     </>
   )

@@ -9,6 +9,8 @@ import WaveSim from './components/wavesim';
 import WaveResult from "./components/waveresult";
 import WellSim from "./components/wellsim";
 import WellResult from "./components/wellresult";
+import Cadastro from "./components/cadastro";
+import PreCalc from "./components/precalc";
 import './App.css'
 
 
@@ -28,6 +30,8 @@ function App() {
           <Route path="/waveresult" element={<WaveResult/>}/>
           <Route path="/wellsim" element={<WellSim/>}/>
           <Route path="/wellresult" element={<WellResult/>}/>
+          <Route path="/cadastro" element={<Cadastro/>}/>
+          <Route path="/precalc" element={<PreCalc/>}/>
         </Routes>
       </BrowserRouter>
     </>

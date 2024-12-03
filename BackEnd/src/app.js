@@ -75,6 +75,8 @@ server.post("/sim", (req, res) => {
     });
 });
 
+server.get();
+
 server.post("/dbstat", (req, res) => {
   if (res.body.team === 0) {
     db.query(

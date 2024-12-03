@@ -5,32 +5,41 @@ import './App.css'
 
 function Cadastro() {
   const navigate = useNavigate();
+
+  function loginCheck() {
+    if (document.getElementById("user").value === "") {
+      alert("Favor inserir usuário");
+    }
+    else if (document.getElementById("pass").value === "") {
+      alert("Favor inserir senha");
+    } else if (document.getElementById("confirm").value === "") {
+      alert("Favor confirmar senha");
+    } else if (document.getElementById("confirm").value != document.getElementById("pass").value) {
+      alert("A confirmação não bate com a senha");
+    } else {
+      return navigate("/select")
+    }
+  }
   
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
-      <h1>Login</h1>
+      <h1>Cadastro</h1>
       <form>
         <label>Usuário:</label>
         <input id="user">
         </input>
         <br /><br />
         <label>Senha:</label>
-        <input id="user" type="password" name="password">
+        <input id="pass" type="password" name="password">
         </input>
         <label>Confirmar Senha:</label>
-        <input id="user" type="password" name="password">
+        <input id="confirm" type="password" name="password">
         </input>
         <br /><br />
       </form>
-      <button onClick={() => navigate("/select")}>
+      <button onClick={loginCheck}>
           Continuar
         </button>
     </>

@@ -6,6 +6,8 @@ import './App.css'
 
 export default function CalcResult(){
     const [options, setOptions] = useState([]);
+    const [graph, setGraph] = useState();
+    const navigate = useNavigate();
     console.log("Session Storage:" + sessionStorage.getItem("calc"))
     useEffect(() => {
         fetch("http://localhost:8080/stat", {
@@ -25,6 +27,7 @@ export default function CalcResult(){
         console.log("Response:" + text)
         console.log(text.stats.stats)
         setOptions(text.stats.stats[0])
+        setGraph(text.stats.graph)
       })
       .catch((error) => {
         console.error(error);
@@ -34,20 +37,20 @@ export default function CalcResult(){
     return(
         <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
       <h1>Resultados</h1>
       <p> Media: {JSON.stringify(options.avg)} <br /> Desvio Padrão: {JSON.stringify(options.std)} <br /> 
       Incerteza Experimental: {JSON.stringify(options.una)} <br /> Incerteza Instrumental: {JSON.stringify(options.unb)} <br /> 
       Incerteza Combinada: {JSON.stringify(options.unc)} <br />Incerteza Propagada: {JSON.stringify(options.unz)}</p>
       <div className="card">       
-        <img src={`data:image/jpeg;base64,${options.graph}`} />
+        <img src={`data:image/jpeg;base64,${graph}`} />
       </div>
+      <button onClick={() => navigate("/calculator")}>
+          Voltar
+        </button>
+      <button onClick={() => navigate("/select")}>
+          Menu Principal
+        </button>
     </>
     )
 }

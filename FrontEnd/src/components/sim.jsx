@@ -9,12 +9,6 @@ function Sim() {
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
       <h1>Simulator</h1>
       <div className="card">
@@ -23,6 +17,9 @@ function Sim() {
         </button>
         <button onClick={() => navigate("/wellsim")}>
           Simulador de Poço de Probabilidade
+        </button>
+        <button onClick={() => navigate("/select")}>
+          Voltar
         </button>
       </div>
     </>
