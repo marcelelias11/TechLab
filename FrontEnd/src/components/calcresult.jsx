@@ -1,6 +1,4 @@
 import { useState,useEffect } from 'react';
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
 import { useNavigate } from 'react-router-dom';
 import './App.css'
 
@@ -33,6 +31,34 @@ export default function CalcResult(){
         console.error(error);
       });
      }, [])
+     function save() {
+      let pesquisa = prompt("Qual será o id da pesquisa?")
+      fetch("http://localhost:8080/save", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pesquisa: pesquisa,
+          dados: sessionStorage.getItem("calc"),
+          id: sessionStorage.getItem("id"),
+        }),
+      })
+      .then(async function (response) {
+        if (response.status === 201) {
+          const text = await response.text(); // Await the text only if status is 201
+          alert("Documento salvo com sucesso!")
+        } else {
+          alert(`ID já utilizado!`); // Throw an error for non-201 status codes
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to proceed: " + error.message);
+      });
+     }
      console.log(options)
     return(
         <>
@@ -45,6 +71,9 @@ export default function CalcResult(){
       <div className="card">       
         <img src={`data:image/jpeg;base64,${graph}`} />
       </div>
+      <button onClick={save}>
+          Salvar
+        </button>
       <button onClick={() => navigate("/calculator")}>
           Voltar
         </button>

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './App.css'
 
-function Load() {
+function Delete() {
   const [options, setOptions] = useState([])
   const navigate = useNavigate();
 
@@ -31,24 +31,30 @@ useEffect(() => {
   }); 
 }, [])    
 
-  let selectedId = ""
-  function handleOptionClick(option) {
-    selectedId = document.getElementById("options").value;
-    console.log(selectedId)
-
-    // Find the selected option's data
-    const selectedOption = options.find((option) => option.idpesquisa === selectedId);
-    return selectedOption
-  }
   function prepare() {   
-    
-    if (selectedOption === "") {
-      alert("No data found for the selected option.");
-    } else {
-      console.log(selectedOption)
-      sessionStorage.setItem("calc", selectedOption.dados);
-      navigate("/calcresult");
-    }
+    fetch("http://localhost:8080/delete", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pesquisa: document.getElementById("options").value,
+        }),
+      })
+      .then(async function (response) {
+        if (response.status === 201) {
+          const text = await response.text(); // Await the text only if status is 201
+          alert("Documento deletado com sucesso!")
+        } else {
+          alert(`Documento não encontrado!`); // Throw an error for non-201 status codes
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to proceed: " + error.message);
+      });
   }
 
   return (
@@ -58,16 +64,16 @@ useEffect(() => {
       <h1>Calculator</h1>
       <div className="card">
         <form>
-        <label>Selecione os dados salvos:</label>
+        <label>Selecione os dados para deletar:</label>
         <select name="options" id="options">
         {options.map((option, index) => (
-              <option onClick={() => handleOptionClick(option)} id={index} key={index} value={option}>
+              <option id={index} key={index} value={option}>
                 {option.idpesquisa}
               </option>
             ))}
         </select>
         <button onClick={prepare}>
-          Selecionar
+          Deletar
         </button>
         <button onClick={() => navigate("/precalc")}>
           Voltar
@@ -82,4 +88,4 @@ useEffect(() => {
   )
 }
 
-export default Load
+export default Delete

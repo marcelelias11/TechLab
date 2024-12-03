@@ -13,14 +13,14 @@ function Select() {
       </div>
       <h1>Selector</h1>
       <div className="card">
-      <button onClick={() => navigate("/calculator")}>
+      <button onClick={() => navigate("/precalc")}>
           Calculadora Estatística
         </button>
         <button onClick={() => navigate("/simulator")}>
           Simulador
         </button>
-        <button onClick={() => alert("Em desenvolvimento!")}>
-          Gerenciar Seus Dados
+        <button onClick={() => navigate("/deletar")}>
+          Deletar Seus Dados
         </button>
       </div>
     </>

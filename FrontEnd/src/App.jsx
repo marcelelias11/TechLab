@@ -11,6 +11,8 @@ import WellSim from "./components/wellsim";
 import WellResult from "./components/wellresult";
 import Cadastro from "./components/cadastro";
 import PreCalc from "./components/precalc";
+import Load from "./components/carregar";
+import Delete from "./components/delete";
 import './App.css'
 
 
@@ -32,6 +34,8 @@ function App() {
           <Route path="/wellresult" element={<WellResult/>}/>
           <Route path="/cadastro" element={<Cadastro/>}/>
           <Route path="/precalc" element={<PreCalc/>}/>
+          <Route path="/carregar" element={<Load/>}/>
+          <Route path="/deletar" element={<Delete/>}/>
         </Routes>
       </BrowserRouter>
     </>

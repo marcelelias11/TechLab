@@ -12,7 +12,7 @@ const db = mysql.createConnection({
   port: "19351",
   user: "avnadmin",
   password: "AVNS_Hiikpb8C2RAs7jTAOcq",
-  database: "defaultdb",
+  database: "mydb",
   ssl: {
     require: true,
     ca: fs.readFileSync("./src/ca/ca.pem"),
@@ -22,7 +22,7 @@ const db = mysql.createConnection({
 dotenv.config();
 db.connect();
 
-db.query(`SELECT * FROM equipes`, (err, rows, fields) => {
+db.query(`SELECT * FROM pesquisador`, (err, rows, fields) => {
   if (err) throw err;
   console.log(rows);
 });
@@ -75,54 +75,82 @@ server.post("/sim", (req, res) => {
     });
 });
 
-server.get();
+server.post("/load", (req, res) => {
+  db.query(
+    `SELECT * FROM pesquisa WHERE idpesquisador = '${req.body.id}';`,
+    (err, rows, fields) => {
+      if (err) throw err;
+      console.log(rows);
+      res.status(201).send(rows);
+    }
+  );
+});
 
-server.post("/dbstat", (req, res) => {
-  if (res.body.team === 0) {
-    db.query(
-      `SELECT idemail FROM estudantesemail WHERE email = '${req.body.email};`,
-      (err, rows, fields) => {
-        if (err) throw err;
-        console.log(rows);
-        let idemail = rows[0];
+server.post("/save", (req, res) => {
+  db.query(
+    `SELECT * FROM pesquisa WHERE idpesquisa = '${req.body.pesquisa}';`,
+    (err, rows, fields) => {
+      if (err) throw err;
+      if (rows[0] == undefined) {
         db.query(
-          `SELECT idestudante FROM estudantes WHERE estudantesemail_idemail = '${idemail}';`,
+          `INSERT INTO pesquisa (idpesquisa, dados, idpesquisador) VALUES ('${req.body.pesquisa}', '${req.body.dados}', '${req.body.id}');`,
           (err, rows, fields) => {
             if (err) throw err;
             console.log(rows);
-            let idestudante = rows[0];
-            db.query(
-              `SELECT estatistica_has_pesquisa_estatistica_idestatistica FROM estudantes_has_equipe WHERE estudantes_idestudante = '${idestudante}';`,
-              (err, rows, fields) => {
-                if (err) throw err;
-                console.log(rows);
-                let idestatistica = rows[0];
-                if (res.body.mode === "load") {
-                  db.query(
-                    `SELECT * FROM estatistica WHERE idestatistica = '${idestatistica}';`,
-                    (err, rows, fields) => {
-                      if (err) throw err;
-                      console.log(rows);
-                      res.status(201).send(rows);
-                    }
-                  );
-                } else if (res.body.mode === "save") {
-                  console.log(req.body.values);
-                  db.query(
-                    `INSERT INTO estatistica VALUES '${req.body.values}';`,
-                    (err, rows, fields) => {
-                      if (err) throw err;
-                      res.status(201).send("Success!");
-                    }
-                  );
-                }
-              }
-            );
+            res.status(201).send("Success!");
           }
         );
+      } else {
+        res.status(400).send("Pesquisa já cadastrada!");
       }
-    );
-  }
+    }
+  );
+});
+
+server.post("/delete", (req, res) => {
+  db.query(
+    `DELETE FROM pesquisa WHERE idpesquisa = '${req.body.pesquisa}';`,
+    (err, rows, fields) => {
+      if (err) throw err;
+      console.log(rows);
+      res.status(201).send(rows);
+    }
+  );
+});
+
+server.post("/cadastro", (req, res) => {
+  db.query(
+    `SELECT * FROM pesquisador WHERE idpesquisador = '${req.body.id}';`,
+    (err, rows, fields) => {
+      if (err) throw err;
+      if (rows[0] == undefined) {
+        db.query(
+          `INSERT INTO pesquisador (idpesquisador, senha) VALUES ('${req.body.id}', '${req.body.senha}');`,
+          (err, rows, fields) => {
+            if (err) throw err;
+            console.log(rows);
+            res.status(201).send("Success!");
+          }
+        );
+      } else {
+        res.status(400).send("Usuário já cadastrado!");
+      }
+    }
+  );
+});
+
+server.post("/login", (req, res) => {
+  db.query(
+    `SELECT * FROM pesquisador WHERE idpesquisador = '${req.body.id}' AND senha = '${req.body.senha}';`,
+    (err, rows, fields) => {
+      if (err) throw err;
+      if (rows[0] == undefined) {
+        res.status(400).send("Usuário ou senha inválidos!");
+      } else {
+        res.status(201).send("Sucesso!");
+      }
+    }
+  );
 });
 
 server.listen(8080, () => {
