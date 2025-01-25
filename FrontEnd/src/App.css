@@ -6,8 +6,9 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  width: 16rem;
+  height: 16rem;
+  object-fit: contain;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -34,6 +35,8 @@
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   padding: 2em;
 }
 

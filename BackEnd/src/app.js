@@ -107,7 +107,7 @@ server.post("/save", (req, res) => {
   );
 });
 
-server.post("/delete", (req, res) => {
+server.delete("/delete", (req, res) => {
   db.query(
     `DELETE FROM pesquisa WHERE idpesquisa = '${req.body.pesquisa}';`,
     (err, result, fields) => {

@@ -41,15 +41,15 @@ useEffect(() => {
   function prepare() {
     console.log(String(selectedId.idpesquisa))   
     fetch("http://localhost:8080/delete", {
-        method: "POST",
+        method: "DELETE",
         mode: "cors",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          pesquisa: String(selectedId.idpesquisa),
-        }),
+        body: {
+          "pesquisa": "Pesquisa1"
+        }
       })
       .then(async function (response) {
         if (response.status === 200) {

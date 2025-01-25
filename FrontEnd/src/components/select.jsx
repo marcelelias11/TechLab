@@ -19,9 +19,6 @@ function Select() {
         <button onClick={() => navigate("/simulator")}>
           Simulador
         </button>
-        <button onClick={() => navigate("/deletar")}>
-          Deletar Seus Dados
-        </button>
       </div>
     </>
   )
